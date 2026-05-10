@@ -245,21 +245,45 @@
 <div id="footer-placeholder"></div>
 <script src="../assets/js/components.js"></script>
 <script>
+  // ── Paste your Apps Script Web App URL below ──────────────
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfM4DNQXsvVOKyVnphVOJXSTrMQjrnVcAB6RfuCl9enQCc7KIMNxAzSVsghDTynuhwrQ/exec";
+  // ──────────────────────────────────────────────────────────
+
   function handleSubmit(btn) {
-    const email = document.getElementById('email').value.trim();
-    const fname = document.getElementById('fname').value.trim();
+    const fname   = document.getElementById('fname').value.trim();
+    const lname   = document.getElementById('lname').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const company = document.getElementById('company').value.trim();
+    const service = document.getElementById('service').value.trim();
+    const budget  = document.getElementById('budget').value.trim();
+    const message = document.getElementById('message').value.trim();
+
     if (!fname || !email) {
       btn.textContent = '⚠ Please fill in Name & Email';
       btn.style.background = '#e17055';
-      setTimeout(() => { btn.textContent = 'Send Message & Book Consultation →'; btn.style.background = ''; }, 2000);
+      setTimeout(() => { btn.textContent = 'Send Message & Book Consultation →'; btn.style.background = ''; }, 2500);
       return;
     }
+
     btn.textContent = 'Sending...';
     btn.disabled = true;
-    setTimeout(() => {
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fname, lname, email, company, service, budget, message })
+    })
+    .then(() => {
       document.getElementById('form-content').style.display = 'none';
       document.getElementById('success-state').style.display = 'block';
-    }, 1000);
+    })
+    .catch(() => {
+      btn.textContent = '⚠ Something went wrong. Try again.';
+      btn.style.background = '#e17055';
+      btn.disabled = false;
+      setTimeout(() => { btn.textContent = 'Send Message & Book Consultation →'; btn.style.background = ''; }, 3000);
+    });
   }
 </script>
 </body>
