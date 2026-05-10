@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Navy rounded square background -->
+  <rect width="32" height="32" rx="7" fill="#0B1120"/>
+  <!-- White "A" centered -->
+  <text x="16" y="23" 
+        font-family="Arial Black, Arial, sans-serif" 
+        font-size="22" 
+        font-weight="900"
+        fill="#E6F1FB" 
+        text-anchor="middle">A</text>
+  <!-- Green underline bar -->
+  <rect x="5" y="27" width="22" height="3" rx="1.5" fill="#1D9E75"/>
+</svg>

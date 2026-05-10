@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/x-icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APS Tech — Automated Process Solutions</title>
+  <link rel="stylesheet" href="assets/css/global.css">
+  <style>
+    /* ===== HOME-SPECIFIC STYLES ===== */
+    #home {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 5% 60px;
+      position: relative; overflow: hidden;
+      background: var(--bg3);
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(24,95,165,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(24,95,165,0.07) 1px, transparent 1px);
+      background-size: 44px 44px;
+      animation: gridShift 20s linear infinite;
+    }
+    @keyframes gridShift {
+      0% { background-position: 0 0; }
+      100% { background-position: 44px 44px; }
+    }
+    .hero-glow {
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(24,95,165,0.12) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation: glowPulse 5s ease-in-out infinite;
+    }
+    .hero-glow2 {
+      position: absolute; width: 350px; height: 350px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(29,158,117,0.1) 0%, transparent 70%);
+      bottom: -80px; left: 20%;
+      animation: glowPulse 7s ease-in-out infinite reverse;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 680px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(29,158,117,0.12);
+      border: 1px solid rgba(29,158,117,0.3);
+      color: var(--green); padding: 6px 16px; border-radius: 50px;
+      font-size: 13px; font-weight: 600; margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge::before {
+      content: ''; width: 8px; height: 8px;
+      background: var(--green); border-radius: 50%;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(44px, 7vw, 82px);
+      font-weight: 800; line-height: 1.0;
+      color: var(--navy); margin-bottom: 24px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero-title .accent { color: var(--blue); }
+    .hero-title .dot { color: var(--green); }
+    .hero-sub {
+      font-size: 18px; color: #4A6580;
+      line-height: 1.7; max-width: 520px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    /* Hero visual */
+    .hero-visual {
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      width: 420px; height: 420px;
+      display: flex; align-items: center; justify-content: center; z-index: 2;
+    }
+    .orbit-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px dashed rgba(24,95,165,0.2);
+      animation: spin 20s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .orbit-dot {
+      position: absolute; width: 36px; height: 36px;
+      background: #fff; border: 2px solid var(--card-border);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; box-shadow: 0 4px 16px rgba(24,95,165,0.12);
+    }
+    .hero-center-box {
+      width: 120px; height: 120px; background: var(--blue);
+      border-radius: 24px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-shadow: 0 0 60px rgba(24,95,165,0.3), 0 0 0 1px rgba(55,138,221,0.3);
+      z-index: 10; animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .hero-center-box .logo-initials { font-family: var(--font-head); font-size: 32px; font-weight: 800; color: #fff; }
+    .hero-center-box .logo-tagline { font-size: 9px; color: rgba(255,255,255,0.7); font-weight: 500; letter-spacing: 0.5px; }
+
+    /* Services preview */
+    #services-preview { background: var(--bg2); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    }
+    .service-card {
+      background: #fff; border: 1px solid rgba(24,95,165,0.12);
+      border-radius: 16px; padding: 32px 28px;
+      position: relative; overflow: hidden; cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      text-decoration: none; display: block;
+    }
+    .service-card::before {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--green); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(24,95,165,0.12); border-color: rgba(24,95,165,0.3); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover .svc-icon { background: rgba(29,158,117,0.12); color: var(--green); }
+    .svc-icon {
+      width: 54px; height: 54px; background: rgba(24,95,165,0.08);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: var(--blue); margin-bottom: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .service-card h3 { font-family: var(--font-head); font-size: 19px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+    .service-card p { font-size: 14px; color: #4A6580; line-height: 1.6; }
+    .svc-tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .svc-tool {
+      font-size: 11px; font-weight: 600;
+      background: rgba(55,138,221,0.08); color: var(--blue);
+      padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(55,138,221,0.2);
+    }
+    .view-all-wrap { text-align: center; margin-top: 48px; }
+
+    /* Stats */
+    #stats { background: var(--navy); padding: 70px 5%; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .stat-box {
+      text-align: center; padding: 40px 24px;
+      border: 1px solid rgba(55,138,221,0.2); border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+    .stat-box:hover { border-color: rgba(55,138,221,0.5); background: rgba(55,138,221,0.05); transform: translateY(-4px); }
+    .stat-num { font-family: var(--font-head); font-size: 56px; font-weight: 800; color: var(--electric); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 14px; font-weight: 500; color: rgba(230,241,251,0.6); letter-spacing: 0.5px; }
+
+    /* Industries */
+    #industries { background: var(--bg3); }
+    .industries-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .industry-chip {
+      display: flex; align-items: center; gap: 10px;
+      background: #fff; border: 1px solid rgba(24,95,165,0.15);
+      border-radius: 50px; padding: 12px 24px;
+      font-weight: 600; font-size: 15px; color: var(--navy);
+      transition: all 0.25s; cursor: pointer;
+    }
+    .industry-chip:hover { background: var(--green); color: #fff; border-color: var(--green); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(29,158,117,0.25); }
+    .industry-chip .ich-icon { font-size: 20px; }
+
+    /* Tech Marquee */
+    #technologies { background: var(--bg2); padding-top: 70px; padding-bottom: 70px; }
+    .tech-marquee-wrap { overflow: hidden; position: relative; }
+    .tech-marquee-wrap::before, .tech-marquee-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2;
+    }
+    .tech-marquee-wrap::before { left: 0; background: linear-gradient(to right, var(--bg2), transparent); }
+    .tech-marquee-wrap::after { right: 0; background: linear-gradient(to left, var(--bg2), transparent); }
+    .tech-marquee { display: flex; gap: 16px; animation: marquee 28s linear infinite; width: max-content; }
+    .tech-marquee.reverse { animation-direction: reverse; margin-top: 16px; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .tech-chip {
+      display: flex; align-items: center; gap: 8px; background: #fff;
+      border: 1px solid rgba(24,95,165,0.12); border-radius: 10px; padding: 10px 20px;
+      white-space: nowrap; font-size: 14px; font-weight: 600; color: var(--navy);
+    }
+    .tech-chip:hover { border-color: var(--green); }
+    .tech-chip .tc-icon { font-size: 18px; }
+
+    /* Testimonials */
+    #testimonials { background: var(--bg3); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .testi-card {
+      background: #fff; border: 1px solid rgba(24,95,165,0.12);
+      border-radius: 16px; padding: 32px 28px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .testi-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(24,95,165,0.10); border-color: rgba(29,158,117,0.3); }
+    .stars { color: var(--green); font-size: 18px; margin-bottom: 16px; }
+    .testi-quote { font-size: 15px; color: #3A4E5F; line-height: 1.7; font-style: italic; margin-bottom: 24px; }
+    .testi-quote::before { content: '"'; font-size: 40px; color: var(--green); line-height: 0; vertical-align: -14px; margin-right: 4px; font-style: normal; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 800; font-size: 16px; color: #fff; }
+    .av1 { background: var(--blue); } .av2 { background: var(--green); } .av3 { background: #6C5CE7; }
+    .testi-name { font-weight: 700; font-size: 15px; color: var(--navy); }
+    .testi-role { font-size: 13px; color: var(--muted); }
+
+    /* CTA */
+    #cta { background: var(--navy); text-align: center; padding: 100px 5%; }
+    .cta-inner { max-width: 640px; margin: 0 auto; }
+    .cta-inner h2 { font-family: var(--font-head); font-size: clamp(32px, 5vw, 56px); font-weight: 800; color: #fff; margin-bottom: 20px; }
+    .cta-inner h2 span { color: var(--green-light); }
+    .cta-inner p { font-size: 18px; color: rgba(230,241,251,0.6); margin-bottom: 40px; line-height: 1.7; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 1100px) { .hero-visual { display: none; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Now Serving 50+ Enterprises Globally</div>
+    <h1 class="hero-title">Automate.<br><span class="accent">Optimize.</span><br>Grow<span class="dot">.</span></h1>
+    <p class="hero-sub">We build intelligent automation solutions that transform how businesses operate — from logistics to healthcare, finance to e-commerce.</p>
+    <div class="hero-btns">
+      <a href="/pages/services.html" class="btn-primary">Our Services <span>→</span></a>
+      <a href="/pages/contact.html" class="btn-outline">Book a Call <span>↗</span></a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="orbit-ring" style="width:340px;height:340px;">
+      <div class="orbit-dot" style="top:-18px;left:50%;transform:translateX(-50%)">🤖</div>
+      <div class="orbit-dot" style="bottom:-18px;left:50%;transform:translateX(-50%)">☁️</div>
+      <div class="orbit-dot" style="left:-18px;top:50%;transform:translateY(-50%)">⚙️</div>
+      <div class="orbit-dot" style="right:-18px;top:50%;transform:translateY(-50%)">📊</div>
+    </div>
+    <div class="orbit-ring" style="width:240px;height:240px;animation-direction:reverse;animation-duration:12s;">
+      <div class="orbit-dot" style="top:-18px;left:50%;transform:translateX(-50%)">🧠</div>
+      <div class="orbit-dot" style="bottom:-18px;right:30%;transform:translateX(50%)">🔗</div>
+    </div>
+    <div class="hero-center-box">
+      <span class="logo-initials">APS</span>
+      <span class="logo-tagline">TECH</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES PREVIEW -->
+<section id="services-preview">
+  <div class="section-header center reveal">
+    <span class="section-label">What We Do</span>
+    <h2 class="section-title">End-to-End Tech Services</h2>
+    <p class="section-sub">From intelligent automation to full-stack development — we engineer solutions that power tomorrow's enterprises.</p>
+  </div>
+  <div class="services-grid">
+    <a href="/pages/services.html#rpa" class="service-card reveal">
+      <div class="svc-icon">🤖</div>
+      <h3>RPA — Robotic Process Automation</h3>
+      <p>Automate repetitive business tasks with precision bots. Eliminate human error, reduce costs, free your team for strategic work.</p>
+      <div class="svc-tools"><span class="svc-tool">UiPath</span><span class="svc-tool">Power Automate</span><span class="svc-tool">AA360</span></div>
+    </a>
+    <a href="/pages/services.html#ai" class="service-card reveal">
+      <div class="svc-icon">🧠</div>
+      <h3>AI & Machine Learning Solutions</h3>
+      <p>Deploy predictive models, NLP pipelines, and computer vision systems that make your business smarter.</p>
+      <div class="svc-tools"><span class="svc-tool">Python</span><span class="svc-tool">TensorFlow</span><span class="svc-tool">OpenAI</span></div>
+    </a>
+    <a href="/pages/services.html#software" class="service-card reveal">
+      <div class="svc-icon">💻</div>
+      <h3>Custom Software Development</h3>
+      <p>Tailor-made web, mobile, and enterprise applications built with scalable architecture and modern frameworks.</p>
+      <div class="svc-tools"><span class="svc-tool">React</span><span class="svc-tool">Node.js</span><span class="svc-tool">Java</span></div>
+    </a>
+    <a href="/pages/services.html#erp" class="service-card reveal">
+      <div class="svc-icon">📈</div>
+      <h3>ERP & Business Optimization</h3>
+      <p>Streamline operations with ERP integrations and BPO consulting. We map and re-engineer workflows for peak efficiency.</p>
+      <div class="svc-tools"><span class="svc-tool">SAP</span><span class="svc-tool">Odoo</span><span class="svc-tool">MS Dynamics</span></div>
+    </a>
+    <a href="/pages/services.html#cloud" class="service-card reveal">
+      <div class="svc-icon">☁️</div>
+      <h3>Cloud & Infrastructure</h3>
+      <p>Migrate, optimize, and manage your cloud environment. We architect resilient, cost-efficient ecosystems for any scale.</p>
+      <div class="svc-tools"><span class="svc-tool">AWS</span><span class="svc-tool">Azure</span><span class="svc-tool">GCP</span></div>
+    </a>
+    <a href="/pages/services.html#uiux" class="service-card reveal">
+      <div class="svc-icon">🎨</div>
+      <h3>UI/UX Design & Animations</h3>
+      <p>Pixel-perfect interfaces with intuitive UX and motion design. We craft experiences users love.</p>
+      <div class="svc-tools"><span class="svc-tool">Figma</span><span class="svc-tool">Framer</span><span class="svc-tool">GSAP</span></div>
+    </a>
+  </div>
+  <div class="view-all-wrap reveal">
+    <a href="/pages/services.html" class="btn-primary">View All 9 Services →</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-box reveal"><div class="stat-num" data-target="50">0</div><div class="stat-label">Clients Served Globally</div></div>
+    <div class="stat-box reveal"><div class="stat-num" data-target="98">0</div><div class="stat-label">% Client Satisfaction Rate</div></div>
+    <div class="stat-box reveal"><div class="stat-num" data-target="10">0</div><div class="stat-label">Years of Industry Experience</div></div>
+    <div class="stat-box reveal"><div class="stat-num" data-target="200">0</div><div class="stat-label">Projects Delivered</div></div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="section-header center reveal">
+    <span class="section-label">Industries</span>
+    <h2 class="section-title">Automation for Every Niche</h2>
+    <p class="section-sub">Intelligent process solutions across every major industry vertical.</p>
+  </div>
+  <div class="industries-row reveal">
+    <div class="industry-chip"><span class="ich-icon">🏥</span> Healthcare</div>
+    <div class="industry-chip"><span class="ich-icon">💰</span> Finance & Banking</div>
+    <div class="industry-chip"><span class="ich-icon">🚚</span> Logistics</div>
+    <div class="industry-chip"><span class="ich-icon">🛒</span> E-Commerce</div>
+    <div class="industry-chip"><span class="ich-icon">🏭</span> Manufacturing</div>
+    <div class="industry-chip"><span class="ich-icon">🏛️</span> Government</div>
+    <div class="industry-chip"><span class="ich-icon">🎓</span> Education</div>
+    <div class="industry-chip"><span class="ich-icon">✈️</span> Travel & Hospitality</div>
+    <div class="industry-chip"><span class="ich-icon">⚡</span> Energy & Utilities</div>
+    <div class="industry-chip"><span class="ich-icon">🏗️</span> Real Estate</div>
+  </div>
+</section>
+
+<!-- TECH MARQUEE -->
+<section id="technologies">
+  <div class="section-header center reveal">
+    <span class="section-label">Tech Stack</span>
+    <h2 class="section-title">Technologies We Master</h2>
+  </div>
+  <div class="tech-marquee-wrap">
+    <div class="tech-marquee">
+      <div class="tech-chip"><span class="tc-icon">🐍</span> Python</div><div class="tech-chip"><span class="tc-icon">☕</span> Java</div><div class="tech-chip"><span class="tc-icon">⚛️</span> React</div><div class="tech-chip"><span class="tc-icon">🟢</span> Node.js</div><div class="tech-chip"><span class="tc-icon">🤖</span> UiPath</div><div class="tech-chip"><span class="tc-icon">⚡</span> Power Automate</div><div class="tech-chip"><span class="tc-icon">🧠</span> TensorFlow</div><div class="tech-chip"><span class="tc-icon">☁️</span> AWS</div><div class="tech-chip"><span class="tc-icon">🔵</span> Azure</div><div class="tech-chip"><span class="tc-icon">🐳</span> Docker</div><div class="tech-chip"><span class="tc-icon">🔷</span> TypeScript</div><div class="tech-chip"><span class="tc-icon">📊</span> Power BI</div>
+      <div class="tech-chip"><span class="tc-icon">🐍</span> Python</div><div class="tech-chip"><span class="tc-icon">☕</span> Java</div><div class="tech-chip"><span class="tc-icon">⚛️</span> React</div><div class="tech-chip"><span class="tc-icon">🟢</span> Node.js</div><div class="tech-chip"><span class="tc-icon">🤖</span> UiPath</div><div class="tech-chip"><span class="tc-icon">⚡</span> Power Automate</div><div class="tech-chip"><span class="tc-icon">🧠</span> TensorFlow</div><div class="tech-chip"><span class="tc-icon">☁️</span> AWS</div><div class="tech-chip"><span class="tc-icon">🔵</span> Azure</div><div class="tech-chip"><span class="tc-icon">🐳</span> Docker</div><div class="tech-chip"><span class="tc-icon">🔷</span> TypeScript</div><div class="tech-chip"><span class="tc-icon">📊</span> Power BI</div>
+    </div>
+  </div>
+  <div class="tech-marquee-wrap" style="margin-top:16px">
+    <div class="tech-marquee reverse">
+      <div class="tech-chip"><span class="tc-icon">🔴</span> Angular</div><div class="tech-chip"><span class="tc-icon">🟣</span> Vue.js</div><div class="tech-chip"><span class="tc-icon">🐘</span> PostgreSQL</div><div class="tech-chip"><span class="tc-icon">🍃</span> MongoDB</div><div class="tech-chip"><span class="tc-icon">🏗️</span> .NET</div><div class="tech-chip"><span class="tc-icon">📱</span> Flutter</div><div class="tech-chip"><span class="tc-icon">🔶</span> SAP</div><div class="tech-chip"><span class="tc-icon">♾️</span> Kubernetes</div><div class="tech-chip"><span class="tc-icon">🔷</span> GraphQL</div><div class="tech-chip"><span class="tc-icon">🐙</span> GitHub Actions</div><div class="tech-chip"><span class="tc-icon">🎨</span> Figma</div><div class="tech-chip"><span class="tc-icon">🌩️</span> GCP</div>
+      <div class="tech-chip"><span class="tc-icon">🔴</span> Angular</div><div class="tech-chip"><span class="tc-icon">🟣</span> Vue.js</div><div class="tech-chip"><span class="tc-icon">🐘</span> PostgreSQL</div><div class="tech-chip"><span class="tc-icon">🍃</span> MongoDB</div><div class="tech-chip"><span class="tc-icon">🏗️</span> .NET</div><div class="tech-chip"><span class="tc-icon">📱</span> Flutter</div><div class="tech-chip"><span class="tc-icon">🔶</span> SAP</div><div class="tech-chip"><span class="tc-icon">♾️</span> Kubernetes</div><div class="tech-chip"><span class="tc-icon">🔷</span> GraphQL</div><div class="tech-chip"><span class="tc-icon">🐙</span> GitHub Actions</div><div class="tech-chip"><span class="tc-icon">🎨</span> Figma</div><div class="tech-chip"><span class="tc-icon">🌩️</span> GCP</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header center reveal">
+    <span class="section-label">Client Stories</span>
+    <h2 class="section-title">What Our Clients Say</h2>
+    <p class="section-sub">Don't take our word for it — hear from the businesses we've transformed.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testi-quote">APS Tech automated our entire invoice processing pipeline. What used to take 3 days now runs in under 2 hours. The ROI was visible within the first month.</p>
+      <div class="testi-author"><div class="testi-avatar av1">AK</div><div><div class="testi-name">Ahmed Khan</div><div class="testi-role">CFO, MedBridge Healthcare</div></div></div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testi-quote">Their team built us a custom ERP and integrated it with our warehouse management system. Seamless execution, zero downtime.</p>
+      <div class="testi-author"><div class="testi-avatar av2">SR</div><div><div class="testi-name">Sarah Rodriguez</div><div class="testi-role">COO, NexLogistics Group</div></div></div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testi-quote">The AI-powered customer segmentation model increased our marketing conversion by 34%. These are not just developers — they're true business problem solvers.</p>
+      <div class="testi-author"><div class="testi-avatar av3">MJ</div><div><div class="testi-name">Marcus Jensen</div><div class="testi-role">VP Growth, FinEdge Capital</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner reveal">
+    <h2>Ready to <span>Automate</span> Your Business?</h2>
+    <p>Tell us your challenge. We'll show you exactly how automation can solve it — and what it would look like.</p>
+    <div class="cta-btns">
+      <a href="/pages/contact.html" class="btn-primary">Book a Free Consultation →</a>
+      <a href="/pages/services.html" class="btn-outline">Explore Services ↗</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="assets/js/components.js"></script>
+</body>
+</html>
